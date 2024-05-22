@@ -72,4 +72,12 @@ mv Mapping/SRR28097738.sorted.bam H128-0-H3K27ac.bam
 mv Mapping/SRR28097739.sorted.bam H128-DN5-Input.bam
 mv Mapping/SRR28097740.sorted.bam H128-DN5-H3K27ac.bam
 
-# Peak calling with mac2
+# Index the files before peak calling
+samtools index H128-0-H3K27ac.bam
+samtools index H128-0-Input.bam
+samtools index H128-DN5-H3K27ac.bam
+samtools index H128-DN5-Input.bam
+
+# Peak calling with macs2
+macs2 callpeak -t H128-0-H3K27ac.bam -c H128-0-Input.bam -n Peak_Calling/H128-0-H3K27ac -g hs --bdg -q 0.05 -f BAM
+macs2 callpeak -t H128-DN5-H3K27ac.bam -c H128-DN5-Input.bam -n Peak_Calling/H128-DN5-H3K27ac -g hs --bdg -q 0.05 -f BAM
