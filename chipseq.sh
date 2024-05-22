@@ -39,10 +39,37 @@ bwa mem -t 32  GRCh38.p14.genome.fa SRR28097738_1.fastq > Mapping/SRR28097738.sa
 bwa mem -t 32  GRCh38.p14.genome.fa SRR28097739_1.fastq > Mapping/SRR28097739.sam
 bwa mem -t 32  GRCh38.p14.genome.fa SRR28097740_1.fastq > Mapping/SRR28097740.sam
 
-# Normalization with samtools
+# Normalisation
+# Filter out mitochondrial and unassigned reads
+sed '/chrM/d;/random/d;/chrUn/d'  Mapping/SRR28097737.sam >  Mapping/filtered.SRR28097737.sam
+sed '/chrM/d;/random/d;/chrUn/d'  Mapping/SRR28097738.sam >  Mapping/filtered.SRR28097738.sam
+sed '/chrM/d;/random/d;/chrUn/d'  Mapping/SRR28097739.sam >  Mapping/filtered.SRR28097739.sam
+sed '/chrM/d;/random/d;/chrUn/d'  Mapping/SRR28097740.sam >  Mapping/filtered.SRR28097740.sam
 
-# Convert to sam files
+# Convert sam to bam files
+samtools view -@ 20 -S -b Mapping/filtered.SRR28097737.sam > Mapping/SRR28097737.bam
+samtools view -@ 20 -S -b Mapping/filtered.SRR28097738.sam > Mapping/SRR28097738.bam
+samtools view -@ 20 -S -b Mapping/filtered.SRR28097739.sam > Mapping/SRR28097739.bam
+samtools view -@ 20 -S -b Mapping/filtered.SRR28097740.sam > Mapping/SRR28097740.bam
 
-# Sort the data
+# Sort the bam files
+samtools sort -@ 32 -o Mapping/SRR28097737.sorted.bam Mapping/SRR28097737.bam
+samtools sort -@ 32 -o Mapping/SRR28097738.sorted.bam Mapping/SRR28097738.bam
+samtools sort -@ 32 -o Mapping/SRR28097739.sorted.bam Mapping/SRR28097738.bam
+samtools sort -@ 32 -o Mapping/SRR28097740.sorted.bam Mapping/SRR28097738.bam
+
+# Count number of alignments
+samtools view -c Mapping/SRR28097737.sorted.bam
+samtools view -c Mapping/SRR28097738.sorted.bam
+samtools view -c Mapping/SRR28097739.sorted.bam
+samtools view -c Mapping/SRR28097740.sorted.bam
+
+# We won't be doing further normalisation since the alignment reads in the control and treatment files are almost the same
+
+# Rename the files
+mv Mapping/SRR28097737.sorted.bam H128-0-Input.bam
+mv Mapping/SRR28097738.sorted.bam H128-0-H3K27ac.bam
+mv Mapping/SRR28097739.sorted.bam H128-DN5-Input.bam
+mv Mapping/SRR28097740.sorted.bam H128-DN5-H3K27ac.bam
 
 # Peak calling with mac2
