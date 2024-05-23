@@ -105,3 +105,7 @@ bedGraphToBigWig Peak_Calling/filtered.H128-0-H3K27ac_control_lambda.bdg hg38.ch
 bedGraphToBigWig Peak_Calling/filtered.H128-0-H3K27ac_treat_pileup.bdg hg38.chromSizes Peak_Calling/H128-0-H3K27ac_treat.bw
 bedGraphToBigWig Peak_Calling/filtered.H128-DN5-H3K27ac_control_lambda.bdg hg38.chromSizes Peak_Calling/H128-DN5-H3K27ac_control.bw
 bedGraphToBigWig Peak_Calling/filtered.H128-DN5-H3K27ac_treat_pileup.bdg hg38.chromSizes Peak_Calling/H128-DN5-H3K27ac_trea.bw
+
+# Convert peak files to bed files extracting the first 4 columns
+cut -f1,2,3,4 Peak_Calling/H128-0-H3K27ac_peaks.narrowPeak > Peak_Calling/H128-0-H3K27ac_peaks.bed
+cut -f1,2,3,4 Peak_Calling/H128-DN5-H3K27ac_peaks.narrowPeak > Peak_Calling/H128-DN5-H3K27ac_peaks.bed
