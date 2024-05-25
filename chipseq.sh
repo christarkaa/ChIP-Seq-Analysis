@@ -114,3 +114,7 @@ cut -f1,2,3,4 Peak_Calling/H128-DN5-H3K27ac_peaks.narrowPeak > Peak_Calling/H128
 # Peak Annotation using HOMER
 annotatePeaks.pl Peak_Calling/H128-0-H3K27ac_peaks.bed hg38 > Peak_Calling/H128-0-H3K27ac_peaks_annotated.txt
 annotatePeaks.pl Peak_Calling/H128-DN5-H3K27ac_peaks.bed hg38 > Peak_Calling/H128-DN5-H3K27ac_peaks_annotated.txt
+
+# Motif analysis with HOMER
+findMotifsGenome.pl Peak_Calling/H128-0-H3K27ac_peaks.bed hg38 motifs/H128-0-H3K27ac -size 200 -mask
+findMotifsGenome.pl Peak_Calling/H128-DN5-H3K27ac_peaks.bed hg38 motifs/H128-DN5-H3K27ac -size 200 -mask
